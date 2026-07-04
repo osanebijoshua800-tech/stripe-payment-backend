@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
+
 // Initialize Stripe with your Secret Key from the .env file
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
