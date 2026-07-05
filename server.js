@@ -72,8 +72,8 @@ app.post('/create-checkout-session', async (req, res) => {
       metadata: {
         userId: userId || 'anonymous_user_123',
       },
-      success_url: 'http://localhost:5000/api/success',
-      cancel_url: 'http://localhost:5000/api/cancel',
+      success_url: 'http://localhost:3000/?status=success',
+      cancel_url: 'http://localhost:3000/?status=cancel',
     });
 
     res.json({ url: session.url });
