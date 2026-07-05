@@ -53,28 +53,30 @@ app.post('/create-checkout-session', async (req, res) => {
   const { userId } = req.body;
 
   try {
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: [
+   const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    // Pass the incoming userId from the frontend request body
+    client_reference_id: userId, 
+    metadata: {
+        purpose: 'premium_upgrade'
+    },
+    line_items: [
         {
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: 'Premium Bank Account Upgrade',
-              description: 'Unlock exclusive dashboard features (Simulated Sandbox).',
+            price_data: {
+                currency: 'usd',
+                product_data: {
+                    name: 'Premium Bank Account Upgrade',
+                    description: 'Unlock exclusive dashboard features (Simulated Sandbox).',
+                },
+                unit_amount: 2500, // $25.00
             },
-            unit_amount: 2500, // $25.00
-          },
-          quantity: 1,
+            quantity: 1,
         },
-      ],
-      mode: 'payment',
-      metadata: {
-        userId: userId || 'anonymous_user_123',
-      },
-      success_url: 'http://localhost:3000/?status=success',
-      cancel_url: 'http://localhost:3000/?status=cancel',
-    });
+    ],
+    mode: 'payment',
+    success_url: 'https://bank-api-hdv2.onrender.com/api/success?session_id={CHECKOUT_SESSION_ID}',
+    cancel_url: 'https://bank-api-hdv2.onrender.com/api/cancel'
+});
 
     res.json({ url: session.url });
   } catch (error) {
