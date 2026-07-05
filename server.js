@@ -74,8 +74,8 @@ app.post('/create-checkout-session', async (req, res) => {
         },
     ],
     mode: 'payment',
-    success_url: 'https://bank-api-hdv2.onrender.com/api/success?session_id={CHECKOUT_SESSION_ID}',
-    cancel_url: 'https://bank-api-hdv2.onrender.com/api/cancel'
+    success_url:  'https://bank-api-hdv2.onrender.com/?status=success',
+    cancel_url:   'https://bank-api-hdv2.onrender.com/?status=cancel',
 });
 
     res.json({ url: session.url });
